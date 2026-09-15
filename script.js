@@ -60,6 +60,21 @@ if (demo) {
     map: { subject: 'LGS · Coğrafya', text: 'Başkent Ankara hangi bölgemizdedir?', regions: ['Marmara', 'Ege', 'İç Anadolu', 'Akdeniz'], correct: 'İç Anadolu', explanation: 'Ankara, İç Anadolu Bölgesi’ndedir.' }
   };
 
+  // Seçenekler kaynak sırasıyla verilirse cevap ele veriliyor; her açılışta karıştırılır.
+  function shuffle(list) {
+    const out = [...list];
+    for (let i = out.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [out[i], out[j]] = [out[j], out[i]]; }
+    return out;
+  }
+  function shuffledOrder(length) {
+    const source = [...Array(length).keys()];
+    if (length < 2) return source;
+    let out = shuffle(source), guard = 0;
+    while (out.every((value, index) => value === index) && guard++ < 16) out = shuffle(source);
+    return out;
+  }
+  function shuffledList(list) { return shuffledOrder(list.length).map(index => list[index]); }
+
   function makeButton(label, className = 'choice-button') {
     const button = document.createElement('button');
     button.type = 'button'; button.className = className; button.textContent = label;
@@ -85,12 +100,18 @@ if (demo) {
     } else if (type === 'blank') {
       const row = document.createElement('div'); row.className = 'blank-builder';
       const slot = document.createElement('button'); slot.type = 'button'; slot.className = 'drop-slot'; slot.dataset.answer = ''; slot.textContent = 'kelimeyi buraya bırak'; slot.setAttribute('aria-label', 'Boşluk için kelime seç'); row.append(slot);
-      const bank = document.createElement('div'); bank.className = 'word-bank'; activity.words.forEach(word => { const chip = makeButton(word, 'word-chip'); chip.draggable = true; chip.dataset.word = word; bank.append(chip); }); row.append(bank); stage.append(row);
+      const bank = document.createElement('div'); bank.className = 'word-bank'; shuffledList(activity.words).forEach(word => { const chip = makeButton(word, 'word-chip'); chip.draggable = true; chip.dataset.word = word; bank.append(chip); }); row.append(bank); stage.append(row);
       bank.addEventListener('click', e => { if (e.target.matches('.word-chip')) { slot.dataset.answer = e.target.dataset.word; slot.textContent = e.target.dataset.word; slot.classList.add('has-word'); } });
       bank.addEventListener('dragstart', e => { if (e.target.matches('.word-chip')) e.dataTransfer.setData('text/plain', e.target.dataset.word); });
       slot.addEventListener('dragover', e => e.preventDefault()); slot.addEventListener('drop', e => { e.preventDefault(); slot.dataset.answer = e.dataTransfer.getData('text/plain'); slot.textContent = slot.dataset.answer; slot.classList.add('has-word'); });
     } else if (type === 'matching') {
-      const grid = document.createElement('div'); grid.className = 'matching-grid'; activity.pairs.forEach(([term, definition], index) => { const termButton = makeButton(term, 'match-term'); termButton.dataset.index = index; const definitionButton = makeButton(definition, 'match-definition'); definitionButton.dataset.index = index; grid.append(termButton, definitionButton); }); stage.append(grid);
+      // Terimler ve tanımlar ayrı sütunlarda; tanım sırası karıştırılmazsa eşleşme satır satır okunuyor.
+      const grid = document.createElement('div'); grid.className = 'matching-grid';
+      const terms = document.createElement('div'); terms.className = 'match-column';
+      const definitions = document.createElement('div'); definitions.className = 'match-column';
+      activity.pairs.forEach(([term], index) => { const termButton = makeButton(term, 'match-term'); termButton.dataset.index = index; terms.append(termButton); });
+      shuffledOrder(activity.pairs.length).forEach(index => { const definitionButton = makeButton(activity.pairs[index][1], 'match-definition'); definitionButton.dataset.index = index; definitions.append(definitionButton); });
+      grid.append(terms, definitions); stage.append(grid);
       let selected = null; grid.addEventListener('click', e => { const button = e.target.closest('button'); if (!button || button.classList.contains('is-matched')) return; if (!selected) { selected = button; button.classList.add('is-selected'); return; } if (selected.classList.contains('match-term') && button.classList.contains('match-definition') || selected.classList.contains('match-definition') && button.classList.contains('match-term')) { if (selected.dataset.index === button.dataset.index) { selected.classList.remove('is-selected'); selected.classList.add('is-matched'); button.classList.add('is-matched'); } else { selected.classList.add('is-wrong'); button.classList.add('is-wrong'); setTimeout(() => { selected.classList.remove('is-wrong', 'is-selected'); button.classList.remove('is-wrong'); }, 450); } selected = null; } });
     } else if (type === 'timeline') {
       const list = document.createElement('ol'); list.className = 'timeline-list'; activity.items.forEach((item, index) => { const li = document.createElement('li'); li.draggable = true; li.dataset.item = item; const text = document.createElement('span'); text.textContent = item; const controls = document.createElement('span'); controls.className = 'move-controls'; const up = makeButton('↑', 'move-button'); const down = makeButton('↓', 'move-button'); up.setAttribute('aria-label', `${item} yukarı taşı`); down.setAttribute('aria-label', `${item} aşağı taşı`); controls.append(up, down); li.append(text, controls); list.append(li); }); stage.append(list);
@@ -99,7 +120,26 @@ if (demo) {
     } else if (type === 'number') {
       const input = document.createElement('input'); input.className = 'number-answer'; input.type = 'number'; input.inputMode = 'numeric'; input.min = '0'; input.placeholder = 'Cevabını yaz'; input.setAttribute('aria-label', 'Sayısal yanıt'); stage.append(input);
     } else if (type === 'sentence') {
-      const builder = document.createElement('div'); builder.className = 'sentence-builder'; const result = document.createElement('div'); result.className = 'sentence-result'; result.dataset.answer = ''; result.setAttribute('aria-live', 'polite'); result.textContent = 'Kelimeleri aşağıya taşı veya tıkla'; const bank = document.createElement('div'); bank.className = 'word-bank'; activity.words.forEach(word => { const chip = makeButton(word, 'word-chip'); chip.draggable = true; bank.append(chip); }); builder.append(result, bank); stage.append(builder); const appendWord = word => { const current = result.dataset.answer; result.dataset.answer = `${current}${current ? ' ' : ''}${word}`; result.textContent = result.dataset.answer; const chip = [...bank.querySelectorAll('.word-chip')].find(item => item.textContent === word && !item.disabled); if (chip) chip.disabled = true; }; bank.addEventListener('click', e => { if (e.target.matches('.word-chip')) appendWord(e.target.textContent); }); bank.addEventListener('dragstart', e => { if (e.target.matches('.word-chip')) e.dataTransfer.setData('text/plain', e.target.textContent); }); result.addEventListener('dragover', e => e.preventDefault()); result.addEventListener('drop', e => { e.preventDefault(); const word = e.dataTransfer.getData('text/plain'); if (word) appendWord(word); });
+      const builder = document.createElement('div'); builder.className = 'sentence-builder';
+      const result = document.createElement('div'); result.className = 'sentence-result'; result.dataset.answer = ''; result.setAttribute('aria-live', 'polite');
+      const bank = document.createElement('div'); bank.className = 'word-bank'; shuffledList(activity.words).forEach(word => { const chip = makeButton(word, 'word-chip'); chip.draggable = true; bank.append(chip); });
+      builder.append(result, bank); stage.append(builder);
+      // Seçilen kelimeler geri alınabilir olmalı; yoksa yanlış dokunuş çıkmaz sokak.
+      const picked = [];
+      const drawResult = () => {
+        result.dataset.answer = picked.map(item => item.word).join(' ');
+        result.classList.toggle('has-words', picked.length > 0);
+        if (!picked.length) { result.textContent = 'Kelimeleri aşağıya taşı veya tıkla'; return; }
+        result.replaceChildren(...picked.map((item, index) => {
+          const word = makeButton(item.word, 'sentence-word');
+          word.setAttribute('aria-label', `${item.word} kelimesini geri al`);
+          word.addEventListener('click', () => { item.chip.disabled = false; picked.splice(index, 1); drawResult(); });
+          return word;
+        }));
+      };
+      const appendWord = word => { const chip = [...bank.querySelectorAll('.word-chip')].find(item => item.textContent === word && !item.disabled); if (!chip) return; chip.disabled = true; picked.push({ word, chip }); drawResult(); };
+      drawResult();
+      bank.addEventListener('click', e => { if (e.target.matches('.word-chip')) appendWord(e.target.textContent); }); bank.addEventListener('dragstart', e => { if (e.target.matches('.word-chip')) e.dataTransfer.setData('text/plain', e.target.textContent); }); result.addEventListener('dragover', e => e.preventDefault()); result.addEventListener('drop', e => { e.preventDefault(); const word = e.dataTransfer.getData('text/plain'); if (word) appendWord(word); });
     } else if (type === 'map') {
       const map = document.createElement('div'); map.className = 'map-grid'; activity.regions.forEach(region => { const button = makeButton(region, 'map-region'); button.dataset.region = region; map.append(button); }); stage.append(map); map.addEventListener('click', e => { const button = e.target.closest('.map-region'); if (!button) return; map.querySelectorAll('.map-region').forEach(item => item.classList.remove('is-selected')); button.classList.add('is-selected'); });
     }
@@ -128,8 +168,55 @@ if (demo) {
     return `Doğru yanıt: ${answer}. ${activity.explanation}`;
   }
 
+  // Kontrol sonrası doğru yanıt görünür olmalı; aksi halde seçim rengi yanlış yanıtı doğru gibi gösteriyor.
+  function markOutcome(correct) {
+    const activity = type === 'choice' ? questions[exam] : activities[type];
+    const outcome = correct ? 'is-correct' : 'is-wrong';
+    if (type === 'choice') {
+      stage.querySelectorAll('.answer').forEach((label, index) => {
+        if (index === activity.correct) label.classList.add('answer--correct');
+        else if (label.querySelector('input').checked) label.classList.add('answer--incorrect');
+      });
+      return;
+    }
+    if (type === 'map') {
+      stage.querySelectorAll('.map-region').forEach(region => {
+        if (region.dataset.region === activity.correct) region.classList.add('is-correct');
+        else if (region.classList.contains('is-selected')) region.classList.add('is-wrong');
+      });
+      return;
+    }
+    const target = stage.querySelector({ blank: '.drop-slot', number: '.number-answer', sentence: '.sentence-result', timeline: '.timeline-list', matching: '.matching-grid' }[type]);
+    if (target) target.classList.add(outcome);
+  }
+
   picker.addEventListener('change', event => { if (event.target.name === 'exam') { exam = event.target.value; renderActivity(); } });
-  tabs.forEach(tab => tab.addEventListener('click', () => { type = tab.dataset.type; tabs.forEach(item => { const active = item === tab; item.classList.toggle('is-active', active); item.setAttribute('aria-selected', String(active)); }); renderActivity(); }));
+  // Sekme şeridi role="tablist" taşıyor; ok tuşları ve tek sekme durağı olmadan klavyeyle gezilemiyordu.
+  stage.setAttribute('role', 'tabpanel');
+  stage.setAttribute('tabindex', '-1');
+  tabs.forEach(tab => { tab.id = `exercise-tab-${tab.dataset.type}`; tab.setAttribute('aria-controls', 'exercise-stage'); });
+  function activateTab(tab, moveFocus) {
+    type = tab.dataset.type;
+    tabs.forEach(item => {
+      const active = item === tab;
+      item.classList.toggle('is-active', active);
+      item.setAttribute('aria-selected', String(active));
+      item.tabIndex = active ? 0 : -1;
+    });
+    stage.setAttribute('aria-labelledby', tab.id);
+    if (moveFocus) { tab.focus(); tab.scrollIntoView({ block: 'nearest', inline: 'nearest' }); }
+    renderActivity();
+  }
+  tabs.forEach(tab => tab.addEventListener('click', () => activateTab(tab, false)));
+  demo.querySelector('.exercise-picker').addEventListener('keydown', event => {
+    const step = { ArrowRight: 1, ArrowLeft: -1, Home: 'first', End: 'last' }[event.key];
+    if (step === undefined) return;
+    event.preventDefault();
+    const current = tabs.findIndex(tab => tab.classList.contains('is-active'));
+    const next = step === 'first' ? 0 : step === 'last' ? tabs.length - 1 : (current + step + tabs.length) % tabs.length;
+    activateTab(tabs[next], true);
+  });
+  tabs.forEach(tab => { const active = tab.classList.contains('is-active'); tab.tabIndex = active ? 0 : -1; if (active) stage.setAttribute('aria-labelledby', tab.id); });
   form.addEventListener('submit', event => {
     event.preventDefault();
     if (answered) return;
@@ -148,6 +235,7 @@ if (demo) {
     const explanation = document.createElement('p');
     explanation.textContent = explain();
     feedback.replaceChildren(title, explanation);
+    markOutcome(correct);
     stage.querySelectorAll('input,button').forEach(input => { if (!input.closest('.exercise-tab')) input.disabled = true; });
     check.hidden = true;
     reset.hidden = false;
