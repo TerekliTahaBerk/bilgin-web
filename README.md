@@ -29,7 +29,7 @@ python3 -m http.server 8000
 ## Görsel türevlerini yeniden üretme
 
 Kaynak dosyaları değiştirirseniz sayfadaki türevleri yeniden üretin. İllüstrasyonun
-beyaz zemini, krem arka planla birebir aynı renge (`--cream`, `#FBF6EC`) dönüştürülerek
+beyaz zemini, krem arka planla birebir aynı renge (`--cream`, `#FAF9F6`) dönüştürülerek
 görselin içine işlenir — böylece sayfada kutu kenarı görünmez ve CSS blend moduna
 ihtiyaç kalmaz:
 
@@ -37,7 +37,7 @@ ihtiyaç kalmaz:
 from PIL import Image
 import numpy as np
 
-CREAM = np.array([251, 246, 236], float)
+CREAM = np.array([250, 249, 246], float)
 im = Image.open('assets/bilgin-karakterler.png').convert('RGB')
 a = np.asarray(im).astype(int)
 
