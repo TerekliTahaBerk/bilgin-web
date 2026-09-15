@@ -50,22 +50,23 @@ img{max-width:100%;height:auto;display:block}
 .hero__icon{width:104px;height:104px;border-radius:26px;box-shadow:0 18px 40px rgba(11,60,40,.14)}
 .hero__title{
   font-family:'Baloo 2',Nunito,sans-serif;font-weight:800;
-  font-size:clamp(30px,5.2vw,52px);line-height:1.12;letter-spacing:-.01em;
-  margin:28px 0 0;
+  font-size:clamp(28px,5.2vw,52px);line-height:1.12;letter-spacing:-.01em;
+  margin:28px 0 0;text-wrap:balance;
 }
 .hero__sub{
   max-width:720px;margin:20px auto 0;
   font-size:clamp(16px,1.9vw,19px);color:var(--ink-2);
 }
+/* her cümle kendi bloğunda: dar ekranda satır, cümle ortasından bölünmez */
+.hero__sub span{display:block;text-wrap:balance}
+.hero__sub span + span{margin-top:.35em}
 .hero__sub strong{font-weight:800;color:var(--ink)}
-/* dar ekranda elle konan satır sonları metni parçalamasın */
-@media(max-width:780px){.hero__sub br{display:none}}
 
 /* mağaza butonları — ikisi de birebir aynı ölçüde */
 .stores{--store-w:208px;display:flex;align-items:center;justify-content:center;gap:16px;margin-top:34px}
 .stores__row{display:grid;grid-template-columns:repeat(2,var(--store-w));gap:14px}
 .store{
-  width:var(--store-w);height:58px;
+  width:100%;height:58px;
   display:grid;grid-template-columns:26px auto;align-items:center;gap:12px;
   justify-content:center;text-decoration:none;
   background:#121814;color:#fff;border-radius:14px;
@@ -79,12 +80,24 @@ img{max-width:100%;height:auto;display:block}
 .dash{width:56px;height:38px;fill:none;stroke:#C9BDA6;stroke-width:3;stroke-linecap:round}
 @media(max-width:620px){
   .dash{display:none}
-  .stores__row{grid-template-columns:var(--store-w);justify-content:center}
+  .stores{margin-top:28px;align-self:stretch}  /* yüzde ölçüsü hero genişliğine bağlansın */
+  .stores__row{grid-template-columns:1fr;width:min(288px,100%);gap:12px}
 }
-@media(max-width:380px){.stores{--store-w:196px}}
 
 /* karakterli görsel */
 .hero__art{margin:clamp(32px,5vw,56px) 0 0;font-size:0;line-height:0}
+
+/* ---- mobil ---- */
+@media(max-width:620px){
+  .hero{padding-top:calc(40px + env(safe-area-inset-top,0px));padding-bottom:24px}
+  .hero__icon{width:88px;height:88px;border-radius:22px}
+  .hero__title{margin-top:22px;font-size:clamp(23px,6.6vw,30px)}
+  .hero__sub{margin-top:16px;font-size:16.5px;line-height:1.5}
+  /* görsel kenarlara kadar açılsın: zemini sayfayla aynı, kesik görünmez */
+  .hero__art{width:100vw;margin-inline:calc(50% - 50vw);margin-top:34px}
+  .hero__art img{width:100%}
+  .footer{padding-top:18px;gap:6px 18px}
+}
 .hero__art img{
   /* görselin zemini şeffaf; arka plan rengi değişse de kutu oluşmaz */
   width:min(860px,100%);margin-inline:auto;
