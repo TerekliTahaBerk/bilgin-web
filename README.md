@@ -1,10 +1,10 @@
-# bilgin — tek sayfa tanıtım sitesi
+# bilgin — yayın öncesi tanıtım sitesi
 
-YKS, LGS, KPSS ve YDS/YÖKDİL için hazırlanan **bilgin** mobil uygulamasının tek sayfalık
-tanıtım sitesi. Bağımlılık yok; saf HTML, CSS ve tek satır JavaScript.
+YKS, LGS, KPSS, ALES ve YDS/YÖKDİL için hazırlanan **bilgin** mobil uygulamasının
+oyunlaştırılmış tanıtım sitesi. Bağımlılık yok; saf HTML, CSS ve lokal JavaScript.
 
-Sayfa yalnızca şunlardan oluşur: uygulama ikonu, tanıtım cümlesi, App Store ve
-Google Play butonları, marka illüstrasyonu ve footer.
+Sayfa; ürün akışı, sınav kapsamı, oyunlaştırma mekanikleri, çalışan örnek egzersiz,
+Free/Premium karşılaştırması ve yayın öncesi SSS bölümlerinden oluşur.
 
 ## Dosyalar
 
@@ -12,7 +12,7 @@ Google Play butonları, marka illüstrasyonu ve footer.
 | --- | --- |
 | `index.html` | Sayfanın tamamı |
 | `styles.css` | Tüm stiller; marka renkleri en üstteki `:root` değişkenlerinde |
-| `script.js` | Footer'daki yılı günceller |
+| `script.js` | Mini egzersiz durumu, sorular ve footer yılını yönetir |
 | `scripts/build-images.py` | İllüstrasyonun sayfa türevlerini üretir |
 | `assets/logo.png` | Uygulama ikonu, kaynak dosya (1254×1254) |
 | `assets/bilgin-karakterler.png` | Marka illüstrasyonu, kaynak dosya (1536×1024) |
@@ -20,6 +20,9 @@ Google Play butonları, marka illüstrasyonu ve footer.
 | `assets/apple-touch-icon.png`, `favicon-32.png` | Favicon ve iOS ana ekran ikonu |
 | `assets/karakterler-1000.png`, `karakterler-1600.png` | İllüstrasyonun sayfa boyutları |
 | `assets/fonts/*.woff2` | Baloo 2 (başlık) ve Nunito (gövde), repoya konulmuş |
+| `assets/telefonlar-*.webp` | Hero mockup’ının responsive türevleri |
+| `assets/paylasim.png` | 1200×630 sosyal paylaşım görseli |
+| `robots.txt`, `sitemap.xml` | Vercel alan adına göre yayın öncesi SEO dosyaları |
 
 ## Çalıştırma
 
@@ -65,11 +68,20 @@ Yazı tipini değiştirirken `assets/fonts/` içindeki dosyayı, `styles.css` ba
 `@font-face` bloklarını ve `index.html` içindeki `preload` satırlarını birlikte
 güncelleyin.
 
+## Mini egzersizi güncelleme
+
+Beş örnek soru `script.js` içindeki `questions` nesnesinde tutulur. Her soru `subject`,
+`text`, `answers`, `correct` ve `explanation` alanlarını içerir. Demo sonucu bellekte
+tutulur; sunucuya, çereze veya `localStorage`’a yazılmaz.
+
 ## Özelleştirme
 
 - **Renkler:** `styles.css` içindeki `:root` bloğu.
-- **Mağaza linkleri:** `index.html` içindeki `.store` bağlantılarının `href` değerleri
-  şu an `#`; App Store / Google Play adresleriyle değiştirin.
+- **Yayın öncesi CTA:** `#ornek-egzersiz` bölümüne gider ve mağaza bağlantısı içermez.
+- **Lansman geçişi:** Uygulama mağazalarda yayınlandığında CTA metinleri gerçek App Store /
+  Google Play adresleriyle değiştirilmeli; “Yakında” metinleri kaldırılmalı.
+- **SEO alan adı:** `index.html`, `robots.txt` ve `sitemap.xml` içindeki
+  `https://bilgin-web.vercel.app/` adresini gerçek üretim alan adıyla değiştirin.
 
 ## Vercel'e deploy
 
@@ -81,3 +93,10 @@ kök dizini çıktı dizini olarak ayarlar ve cache/güvenlik başlıklarını t
 3. Deploy. Sonraki her `main` push'u production'a, diğer dallar önizlemeye gider.
 
 Özel alan adı için Vercel projesinde Settings → Domains.
+
+## Lansman öncesi kontrol listesi
+
+- Gerçek App Store ve Google Play URL’lerini ekle.
+- Gizlilik ve kullanım koşulları metinlerini onayla ve footer’a bağla.
+- `canonical`, `og:url`, `robots.txt` ve `sitemap.xml` alan adını güncelle.
+- Mobil Safari/Chrome ve masaüstü tarayıcılarda demo, SSS ve bölüm bağlantılarını tekrar test et.

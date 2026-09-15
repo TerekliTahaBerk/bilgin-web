@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://bilgin-web.vercel.app/sitemap.xml
