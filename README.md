@@ -13,6 +13,7 @@ Google Play butonları, marka illüstrasyonu ve footer.
 | `index.html` | Sayfanın tamamı |
 | `styles.css` | Tüm stiller; marka renkleri en üstteki `:root` değişkenlerinde |
 | `script.js` | Footer'daki yılı günceller |
+| `scripts/build-images.py` | İllüstrasyonun sayfa türevlerini üretir |
 | `assets/logo.png` | Uygulama ikonu, kaynak dosya (1254×1254) |
 | `assets/bilgin-karakterler.png` | Marka illüstrasyonu, kaynak dosya (1536×1024) |
 | `assets/logo-192.png`, `logo-384.png` | Sayfadaki ikon, 1x / 2x |
@@ -28,36 +29,29 @@ python3 -m http.server 8000
 
 ## Görsel türevlerini yeniden üretme
 
-Kaynak dosyaları değiştirirseniz sayfadaki türevleri yeniden üretin. İllüstrasyonun
-beyaz zemini, krem arka planla birebir aynı renge (`--cream`, `#FAF9F6`) dönüştürülerek
-görselin içine işlenir — böylece sayfada kutu kenarı görünmez ve CSS blend moduna
-ihtiyaç kalmaz:
+Kaynak dosyaları ya da arka plan rengini değiştirirseniz illüstrasyonun türevlerini
+yeniden üretin. `scripts/build-images.py` bunu yapar:
 
-```python
-from PIL import Image
-import numpy as np
-
-CREAM = np.array([250, 249, 246], float)
-im = Image.open('assets/bilgin-karakterler.png').convert('RGB')
-a = np.asarray(im).astype(int)
-
-# 1) beyaz boşlukları kırp
-ys, xs = np.where((255 - a.min(axis=2)) > 10)
-pad = 24
-cut = np.asarray(im.crop((xs.min()-pad, ys.min()-pad, xs.max()+1+pad, ys.max()+1+pad))).astype(float)
-
-# 2) ölçülen zemin rengini tam olarak kreme eşle
-edge = np.concatenate([cut[:3].reshape(-1,3), cut[-3:].reshape(-1,3),
-                       cut[:,:3].reshape(-1,3), cut[:,-3:].reshape(-1,3)])
-out = Image.fromarray((cut * CREAM / np.median(edge, axis=0)).round().clip(0,255).astype('uint8'))
-
-for w, name in [(1600,'karakterler-1600.png'), (1000,'karakterler-1000.png')]:
-    h = round(out.size[1] * w / out.size[0])
-    out.resize((w,h), Image.LANCZOS).quantize(colors=200).save(f'assets/{name}', optimize=True)
+```bash
+pip install Pillow numpy
+python3 scripts/build-images.py
 ```
 
-Arka plan rengini değiştirirseniz `CREAM` değerini de güncelleyin, aksi halde
-illüstrasyonun zemini sayfayla uyuşmaz.
+Script üç şeyi halleder:
+
+1. **Kırpma** — illüstrasyonun çevresindeki beyaz boşluk atılır.
+2. **Zemin eşitleme** — ölçülen zemin rengi, sayfa arka planına (`--cream`) birebir
+   eşitlenir. Şeffaflık kullanılamaz: illüstrasyonda çocuğun pantolonu gibi giysiler
+   zeminle *tam olarak aynı* renktedir (`#FDFDFD`) ve zemine değdikleri için hiçbir
+   eşik veya bağlı bileşen analizi onları ayıramaz — denendiğinde pantolon siliniyor.
+3. **Kenar yumuşatma** — görselin çevresine 48 piksel pay eklenir ve alfa bu bantta
+   sıfıra iner. Renk ileride kayarsa keskin bir dikdörtgen kenarı oluşmaz.
+
+Kuantalama sonrası zemine yakın palet girdileri hedef renge sabitlenir; aksi halde
+tek birimlik kayma bile geniş düz alanda gözle görülür bir kutu bırakıyor.
+
+Arka plan rengini değiştirirken `styles.css` içindeki `--cream` ile script'teki
+`CREAM` değerini birlikte güncelleyin.
 
 ## Özelleştirme
 

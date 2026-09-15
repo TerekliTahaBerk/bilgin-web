@@ -47,7 +47,7 @@ img{max-width:100%;height:auto;display:block}
 /* karakterli görsel */
 .hero__art{margin:clamp(36px,6vw,64px) 0 0;font-size:0;line-height:0}
 .hero__art img{
-  /* zemin görsele işlendiği için arka planla birebir aynı, blend gerekmiyor */
+  /* görselin zemini şeffaf; arka plan rengi değişse de kutu oluşmaz */
   width:min(860px,100%);margin-inline:auto;
 }
 
