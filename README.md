@@ -19,6 +19,7 @@ Google Play butonları, marka illüstrasyonu ve footer.
 | `assets/logo-192.png`, `logo-384.png` | Sayfadaki ikon, 1x / 2x |
 | `assets/apple-touch-icon.png`, `favicon-32.png` | Favicon ve iOS ana ekran ikonu |
 | `assets/karakterler-1000.png`, `karakterler-1600.png` | İllüstrasyonun sayfa boyutları |
+| `assets/fonts/*.woff2` | Baloo 2 (başlık) ve Nunito (gövde), repoya konulmuş |
 
 ## Çalıştırma
 
@@ -52,6 +53,17 @@ tek birimlik kayma bile geniş düz alanda gözle görülür bir kutu bırakıyo
 
 Arka plan rengini değiştirirken `styles.css` içindeki `--cream` ile script'teki
 `CREAM` değerini birlikte güncelleyin.
+
+## Yazı tipleri
+
+Başlık **Baloo 2 800**, gövde **Nunito**. İkisi de Google Fonts'tan indirilip
+`assets/fonts/` altına konuldu — sayfa hiçbir dış isteğe çıkmıyor. `latin` ve
+`latin-ext` alt kümeleri ayrı dosyalar; `unicode-range` sayesinde tarayıcı yalnızca
+gerekeni indirir. Türkçe karakterler (ğ ş ı İ ç ö ü) `latin-ext` içinde.
+
+Yazı tipini değiştirirken `assets/fonts/` içindeki dosyayı, `styles.css` başındaki
+`@font-face` bloklarını ve `index.html` içindeki `preload` satırlarını birlikte
+güncelleyin.
 
 ## Özelleştirme
 

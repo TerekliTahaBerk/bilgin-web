@@ -3,18 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>bilgin — Sınav hazırlığını oyuna çevir</title>
-<meta name="description" content="YKS, LGS, KPSS ve YDS/YÖKDİL konularını dakikalar süren mini derslere böl. Soru çöz, serini büyüt, yolda dinleyerek tekrar et. bilgin'i ücretsiz indir.">
+<title>bilgin — Sınava Hazırlanmanın Yeni Yolu</title>
+<meta name="description" content="YKS, LGS, KPSS ve YDS/YÖKDİL'e dakikalar süren mini derslerle hazırlan. Sorularını çöz, serini büyüt, yolda bile dinleyerek tekrar yap. Daha az zamanda, daha düzenli çalış.">
 <meta name="theme-color" content="#087357">
 <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<meta property="og:title" content="bilgin — Sınav hazırlığını oyuna çevir">
-<meta property="og:description" content="YKS, LGS, KPSS ve YDS/YÖKDİL için dakikalar süren mini dersler. Ücretsiz indir.">
+<meta property="og:title" content="bilgin — Sınava Hazırlanmanın Yeni Yolu">
+<meta property="og:description" content="Dakikalar süren mini derslerle YKS, LGS, KPSS ve YDS/YÖKDİL hazırlığı. Ücretsiz indir, hemen başla.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="assets/karakterler-1600.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -23,14 +22,18 @@
   <img class="hero__icon" src="assets/logo-192.png" srcset="assets/logo-192.png 1x, assets/logo-384.png 2x"
        alt="bilgin uygulama simgesi" width="104" height="104" fetchpriority="high">
 
+  <h1 class="hero__title">Sınav hazırlığını<br>günlük bir alışkanlığa çevir.</h1>
+
   <p class="hero__sub">
-    YKS, LGS, KPSS ve YDS/YÖKDİL konularını dakikalar süren mini derslere böl.
-    Soru çöz, serini büyüt, yolda dinleyerek tekrar et. Ücretsiz indir.
+    YKS, LGS, KPSS ve YDS/YÖKDİL'e <strong>dakikalar süren mini derslerle hazırlan.</strong><br>
+    Sorularını çöz, serini büyüt, yolda bile dinleyerek tekrar yap.<br>
+    <strong>Daha az zamanda, daha düzenli çalış. Ücretsiz indir, hemen başla.</strong>
   </p>
 
   <div class="stores">
     <svg class="dash dash--l" viewBox="0 0 60 40" aria-hidden="true"><path d="M8 8l22 12M4 22l20 6M18 34l16 2"/></svg>
 
+    <div class="stores__row">
     <a class="store" href="#" aria-label="App Store'dan indir">
       <svg viewBox="0 0 24 24" aria-hidden="true" class="store__ico"><path fill="currentColor" d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.3 2.9 2.2 1.2 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.2c.9-1.2 1.2-2.4 1.2-2.5 0 0-2.4-.9-2.4-3.6zM14.2 5.9c.6-.8 1-1.9.9-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.8-1.3z"/></svg>
       <span><small>İndir</small><strong>App Store</strong></span>
@@ -40,16 +43,17 @@
       <svg viewBox="0 0 24 24" aria-hidden="true" class="store__ico"><path fill="currentColor" d="M3.6 2.4c-.3.3-.5.8-.5 1.4v16.4c0 .6.2 1.1.5 1.4l.1.1 9.2-9.2v-.2L3.6 2.4zM16 15.3l-3-3v-.2l3-3 .1.1 3.6 2c1 .6 1 1.5 0 2.1l-3.7 2zM15.9 15.4L12.8 12.3 3.6 21.6c.3.4 1 .4 1.6 0l10.7-6.2M15.9 8.6L5.2 2.4c-.6-.4-1.3-.3-1.6 0l9.2 9.2 3.1-3z"/></svg>
       <span><small>İndir</small><strong>Google Play</strong></span>
     </a>
+    </div>
 
     <svg class="dash dash--r" viewBox="0 0 60 40" aria-hidden="true"><path d="M52 8L30 20M56 22l-20 6M42 34l-16 2"/></svg>
   </div>
 
-  <h1 class="hero__art">
+  <div class="hero__art">
     <img src="assets/karakterler-1600.png"
          srcset="assets/karakterler-1000.png 1000w, assets/karakterler-1600.png 1600w"
          sizes="(max-width: 900px) 92vw, 860px"
-         alt="bilgin" width="1600" height="820">
-  </h1>
+         alt="bilgin" width="1600" height="844">
+  </div>
 </main>
 
 <footer class="footer">
