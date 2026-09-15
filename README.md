@@ -10,7 +10,11 @@ tanıtım sitesi. Bağımlılık yok; saf HTML, CSS ve birkaç satır JavaScript
 | `index.html` | Sayfanın tamamı (hero, iki mod, sınavlar, seri/XP, sayılar, SSS, CTA, footer) |
 | `styles.css` | Tüm stiller; marka renkleri en üstteki CSS değişkenlerinde |
 | `script.js` | Yıl güncelleme, SSS akordeonu, scroll ile beliren bölümler |
-| `assets/logo.svg` | Maskot logo (favicon ve uygulama simgesi olarak da kullanılıyor) |
+| `assets/logo.png` | Uygulama ikonu (kaynak dosya, 1254×1254) |
+| `assets/bilgin-karakterler.png` | Wordmark + karakterler illüstrasyonu (kaynak dosya, 1536×1024) |
+| `assets/logo-192.png`, `logo-384.png` | Sayfada kullanılan ikon türevleri (1x / 2x) |
+| `assets/apple-touch-icon.png`, `favicon-32.png` | Favicon ve iOS ana ekran ikonu |
+| `assets/karakterler-1400.png`, `karakterler-800.png` | İllüstrasyonun sayfada kullanılan boyutları |
 
 ## Çalıştırma
 
@@ -26,7 +30,8 @@ Statik olduğu için GitHub Pages, Netlify veya Vercel'e olduğu gibi yüklenebi
 - **Renkler:** `styles.css` içindeki `:root` bloğu (`--green`, `--green-l`, `--cream`).
 - **Mağaza linkleri:** `index.html` içindeki `.store` bağlantılarının `href` değerleri
   şu an `#indir`; App Store / Google Play adresleriyle değiştirin.
-- **Logo:** `assets/logo.svg` dosyasını kendi dosyanızla değiştirmeniz yeterli.
+- **Logo / illüstrasyon:** Kaynak dosyalar `assets/logo.png` ve `assets/bilgin-karakterler.png`.
+  Bunları değiştirirseniz sayfadaki türevleri de yeniden üretin (Pillow ile yeniden boyutlandırma yeterli).
 - **Metinler:** Sayılar ve sınav açıklamaları örnek değerlerdir, gerçek verilerle güncelleyin.
 
 ## Vercel'e deploy

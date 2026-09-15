@@ -1,8 +1,8 @@
 /* ============ temel ============ */
 :root{
-  --green:#0B6E4E;
-  --green-d:#075639;
-  --green-l:#5FD09A;
+  --green:#087357;
+  --green-d:#04533D;
+  --green-l:#56C793;
   --cream:#FBF6EC;
   --cream-2:#F3EBDC;
   --ink:#16201B;
@@ -178,6 +178,15 @@ p{margin:0}
 .stats b{display:block;font-size:30px;font-weight:900;color:var(--green)}
 .stats span{font-size:14px;color:var(--ink-2);font-weight:700}
 @media(max-width:700px){.stats{grid-template-columns:1fr 1fr}}
+
+/* ============ marka ============ */
+.brand{padding-bottom:84px;text-align:center}
+.brand img{
+  width:min(760px,100%);height:auto;margin:0 auto;
+  mix-blend-mode:multiply; /* illüstrasyonun beyaz zemini krem arka planda kaybolsun */
+}
+.brand p{margin-top:8px;font-weight:800;font-size:clamp(17px,2vw,20px);color:var(--ink-2)}
+@media(max-width:560px){.brand{padding-bottom:56px}}
 
 /* ============ sss ============ */
 .faq{padding-bottom:90px;max-width:820px}
