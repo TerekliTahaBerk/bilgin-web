@@ -258,3 +258,132 @@ h1,h2{text-wrap:balance}
  .question-meta{font-size:12px;display:block}.question-meta span{display:block}.question-meta span+span{margin-top:5px}.question legend{font-size:24px}.answer{font-size:16px;padding:14px}.exercise-actions .button{width:100%}.exercise-hint{font-size:14px}.exercise-actions{gap:14px}
  .closing h2{max-width:520px;margin-inline:auto}.closing p{font-size:16px}.faq summary{min-height:60px}.button{min-height:48px}
 }
+
+/* ============ web ve mobil cila ============
+   Buradaki kurallar üstteki tasarım sistemini değiştirmez; yalnızca dokunmatikte
+   eksik kalan geri bildirimi, kaydırma ipuçlarını ve dar ekran yerleşimini tamamlar. */
+
+/* --- satır sonu: <br> gizlendiğinde kelimeler bitişiyordu --- */
+@media(max-width:760px){
+  h2 br{display:inline;font-size:0;line-height:0}
+  h2 br::after{content:" ";font-size:1rem}
+}
+
+/* --- dokunma geri bildirimi ---
+   Hover dokunmatikte "yapışıyor": bir kez dokunulan sekme parmak kalkınca yeşil kalıyordu.
+   Hover'ı yalnızca gerçek imleçli cihazlara, basma geri bildirimini her cihaza veriyoruz. */
+a,button,summary,label,input{-webkit-tap-highlight-color:transparent}
+.button,.exercise-tab,.word-chip,.match-term,.match-definition,.map-region,
+.move-button,.drop-slot,.sentence-word,.exam-picker label,.timeline-list li,
+.faq summary,.exam-grid a,.header nav a,.text-link{touch-action:manipulation}
+.exercise-tab,.move-button,.map-region,.exam-picker span,.timeline-list li,.sentence-word{-webkit-user-select:none;user-select:none}
+
+@media(hover:none){
+  .button:hover{background:var(--green);transform:none}
+  .button--outline:hover{background:transparent}
+  .exercise-tab:hover{background:#fff;border-color:var(--line);color:var(--ink-2)}
+  .exercise-tab:hover.is-active{background:var(--green);border-color:var(--green);color:#fff}
+  .word-chip:hover{border-color:var(--line);color:var(--ink)}
+  .header nav a:hover,.footer nav a:hover{color:var(--ink-2);text-decoration:none}
+}
+.button{transition:transform .12s,background .12s,box-shadow .12s}
+.button:active{transform:translateY(2px);box-shadow:0 1px 0 #05533F}
+.button--outline:active{box-shadow:none;background:var(--green-soft)}
+.exercise-tab:active,.word-chip:active,.match-term:active,.match-definition:active,
+.map-region:active,.move-button:active,.drop-slot:active,.sentence-word:active{transform:translateY(1px)}
+.exam-grid li{transition:transform .12s,box-shadow .12s}
+.exam-grid li:active{transform:translateY(1px)}
+
+/* --- sınav kartı bağlantısı: alt çizgi oka kadar uzuyordu --- */
+.exam-grid a{text-decoration:none}
+/* Kartın kendisi kalktığı için bağlantıda alt çizgiye gerek yok; çizgi oka da taşıyordu. */
+.exam-grid a>span{display:inline-block;transition:transform .12s}
+.exam-grid a::before{content:"";position:absolute;inset:0;border-radius:inherit}
+.exam-grid li{position:relative}
+@media(hover:hover){
+  .exam-grid li:hover{transform:translateY(-2px);box-shadow:0 6px 0 #E4E9E0}
+  .exam-grid li:hover a>span{transform:translateX(3px)}
+  .exam-grid li:hover a{color:#065D47}
+}
+.exam-grid a:focus-visible{outline-offset:2px}
+
+/* --- egzersiz sekmeleri: kesilen şeridin kaydırıldığı belli olmuyordu --- */
+.exercise-picker{scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.exercise-tab{scroll-snap-align:start;transition:background .12s,color .12s,border-color .12s,transform .12s}
+@media(max-width:760px){
+  .exercise-picker{
+    scrollbar-width:none;
+    -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 34px),transparent 100%);
+    mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 34px),transparent 100%);
+    padding-inline:4px 30px;
+  }
+  .exercise-picker::-webkit-scrollbar{display:none}
+}
+
+/* --- kontrol sonrası yanıt durumu --- */
+.answer--correct,.answer--incorrect{position:relative}
+/* `.answer:has(input:checked)` :has argümanı yüzünden daha özgül; işaretli yanlış şık
+   yeşil kalmasın diye sonuç kuralları aynı özgüllüğün üstüne çıkarılıyor. */
+.answer.answer--correct:has(input){border-color:var(--green);background:var(--green-soft)}
+.answer.answer--incorrect:has(input){border-color:var(--rose);background:var(--rose-soft)}
+.answer--correct::after,.answer--incorrect::after{
+  margin-left:auto;font-size:15px;font-weight:900;letter-spacing:.01em;
+}
+.answer--correct::after{content:"Doğru";color:var(--green)}
+.answer--incorrect::after{content:"Senin yanıtın";color:var(--rose)}
+.answer:has(input:disabled){opacity:1}
+.drop-slot.is-correct,.sentence-result.is-correct,.number-answer.is-correct{border-style:solid;border-color:var(--green);background:var(--green-soft);color:var(--green)}
+.drop-slot.is-wrong,.sentence-result.is-wrong,.number-answer.is-wrong{border-style:solid;border-color:var(--rose);background:var(--rose-soft);color:var(--rose)}
+.timeline-list.is-correct li{border-color:var(--green);background:var(--green-soft)}
+.timeline-list.is-wrong li{border-color:var(--rose);background:var(--rose-soft)}
+.matching-grid.is-correct button{border-color:var(--green)}
+.map-region.is-correct{outline:4px solid var(--green);outline-offset:2px}
+.map-region.is-wrong{outline:4px solid var(--rose);outline-offset:2px}
+.map-region:disabled,.word-chip:disabled.is-correct{opacity:1}
+
+/* --- eşleştirme: tek sütuna inince terim ve tanım alt alta düşüyordu --- */
+.matching-grid{align-items:start}
+.match-column{display:grid;gap:12px;align-content:start}
+@media(max-width:760px){
+  .matching-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .matching-grid button{min-height:60px;padding:10px 12px;font-size:15px;text-align:center}
+}
+
+/* --- cümle kurma: seçilen kelimeler geri alınabilir --- */
+.sentence-result{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.sentence-result:not(.has-words){display:block;color:var(--ink-2)}
+.sentence-word{min-height:40px;padding:6px 12px;border:2px solid var(--green);border-radius:10px;background:#fff;color:var(--green);font:inherit;font-size:15px;font-weight:800;cursor:pointer}
+.sentence-word:disabled{cursor:default}
+.sentence-result.is-correct .sentence-word{border-color:var(--green)}
+.sentence-result.is-wrong .sentence-word{border-color:var(--rose);color:var(--rose)}
+
+/* --- dar ekranlarda başlık tek satırda kalsın --- */
+@media(max-width:400px){
+  .brand{font-size:26px;gap:8px}
+  .brand img{width:34px;height:34px}
+  .header{gap:10px;padding-block:14px}
+  .button--small{font-size:12px;padding-inline:12px;gap:0}
+  .header nav{justify-content:space-between;gap:4px}
+  .header nav a{font-size:12px}
+}
+
+/* --- kısa telefon ekranlarında hero katlanmayı yemesin --- */
+@media(max-width:760px){
+  .hero__visual{height:min(52vh,490px);min-height:330px}
+  .hero__actions{gap:12px 18px}
+}
+
+/* --- plan satırlarında değerler dengeli sarsın --- */
+.plan dd{text-wrap:balance}
+.plan dl div{align-items:baseline}
+
+/* --- uzun Türkçe başlıklar dar ekranda taşmasın --- */
+h1,h2,h3{overflow-wrap:break-word}
+.activity-question{text-wrap:pretty}
+
+/* --- logo bağlantısı küçülürken dokunma hedefi 44px'in altına düşüyordu --- */
+.brand{min-height:44px}
+
+/* --- klavye odağı her zeminde görünür olsun --- */
+.exercise-tab:focus-visible,.exam-picker input:focus-visible+span{outline-offset:3px}
+.faq summary:focus-visible{outline-offset:-3px}

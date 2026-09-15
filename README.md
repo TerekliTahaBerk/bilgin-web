@@ -74,6 +74,11 @@ Beş örnek soru `script.js` içindeki `questions` nesnesinde tutulur. Her soru 
 `text`, `answers`, `correct` ve `explanation` alanlarını içerir. Demo sonucu bellekte
 tutulur; sunucuya, çereze veya `localStorage`’a yazılmaz.
 
+Egzersiz türleri `activities` nesnesinde tanımlıdır. Boşluk doldurma, cümle kurma ve
+eşleştirme türlerinde seçenekler her açılışta karıştırılır (`shuffledOrder`): kaynak
+sırasıyla verildiklerinde doğru yanıt listeden okunabiliyordu. Bu yüzden `activities`
+içine yeni seçenek eklerken sırayı önemsemeyin; `correct` alanı değeri tutar, indisi değil.
+
 ## Özelleştirme
 
 - **Renkler:** `styles.css` içindeki `:root` bloğu.
