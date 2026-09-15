@@ -1,3 +1,27 @@
+/* ============ yazı tipleri ============ */
+/* Google Fonts'tan indirilip repoya konuldu: dış bağımlılık ve ek istek yok.
+   latin-ext alt kümesi Türkçe karakterleri (ğ ş ı İ ç ö ü) taşır. */
+@font-face{
+  font-family:Nunito;src:url(assets/fonts/nunito-latin-ext.woff2) format('woff2');
+  font-weight:400 900;font-style:normal;font-display:swap;
+  unicode-range:U+0100-02BA,U+0304,U+0308,U+0329,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face{
+  font-family:Nunito;src:url(assets/fonts/nunito-latin.woff2) format('woff2');
+  font-weight:400 900;font-style:normal;font-display:swap;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+  font-family:'Baloo 2';src:url(assets/fonts/baloo2-latin-ext.woff2) format('woff2');
+  font-weight:800;font-style:normal;font-display:swap;
+  unicode-range:U+0100-02BA,U+0304,U+0308,U+0329,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face{
+  font-family:'Baloo 2';src:url(assets/fonts/baloo2-latin.woff2) format('woff2');
+  font-weight:800;font-style:normal;font-display:swap;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
 :root{
   --green:#087357;
   --green-l:#56C793;
@@ -24,8 +48,13 @@ img{max-width:100%;height:auto;display:block}
   display:flex;flex-direction:column;align-items:center;
 }
 .hero__icon{width:104px;height:104px;border-radius:26px;box-shadow:0 18px 40px rgba(11,60,40,.14)}
+.hero__title{
+  font-family:'Baloo 2',Nunito,sans-serif;font-weight:800;
+  font-size:clamp(30px,5.2vw,52px);line-height:1.12;letter-spacing:-.01em;
+  margin:28px 0 0;
+}
 .hero__sub{
-  max-width:600px;margin:32px auto 0;
+  max-width:600px;margin:20px auto 0;
   font-size:clamp(17px,2.1vw,20px);color:var(--ink-2);
 }
 
@@ -45,7 +74,7 @@ img{max-width:100%;height:auto;display:block}
 @media(max-width:620px){.dash{display:none}}
 
 /* karakterli görsel */
-.hero__art{margin:clamp(36px,6vw,64px) 0 0;font-size:0;line-height:0}
+.hero__art{margin:clamp(32px,5vw,56px) 0 0;font-size:0;line-height:0}
 .hero__art img{
   /* görselin zemini şeffaf; arka plan rengi değişse de kutu oluşmaz */
   width:min(860px,100%);margin-inline:auto;
