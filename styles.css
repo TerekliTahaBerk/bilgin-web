@@ -54,24 +54,34 @@ img{max-width:100%;height:auto;display:block}
   margin:28px 0 0;
 }
 .hero__sub{
-  max-width:600px;margin:20px auto 0;
-  font-size:clamp(17px,2.1vw,20px);color:var(--ink-2);
+  max-width:720px;margin:20px auto 0;
+  font-size:clamp(16px,1.9vw,19px);color:var(--ink-2);
 }
+.hero__sub strong{font-weight:800;color:var(--ink)}
+/* dar ekranda elle konan satır sonları metni parçalamasın */
+@media(max-width:780px){.hero__sub br{display:none}}
 
-/* mağaza butonları */
-.stores{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:34px}
+/* mağaza butonları — ikisi de birebir aynı ölçüde */
+.stores{--store-w:208px;display:flex;align-items:center;justify-content:center;gap:16px;margin-top:34px}
+.stores__row{display:grid;grid-template-columns:repeat(2,var(--store-w));gap:14px}
 .store{
-  display:inline-flex;align-items:center;gap:12px;text-decoration:none;
-  background:#121814;color:#fff;padding:11px 22px;border-radius:14px;
+  width:var(--store-w);height:58px;
+  display:grid;grid-template-columns:26px auto;align-items:center;gap:12px;
+  justify-content:center;text-decoration:none;
+  background:#121814;color:#fff;border-radius:14px;
   transition:transform .12s ease;
 }
 .store:hover{transform:translateY(-2px)}
 .store__ico{width:26px;height:26px}
 .store span{display:flex;flex-direction:column;line-height:1.1;text-align:left}
-.store small{font-size:11px;opacity:.8}
-.store strong{font-size:18px;font-weight:800}
+.store small{font-size:11px;opacity:.85;font-weight:700}
+.store strong{font-size:18px;font-weight:800;white-space:nowrap}
 .dash{width:56px;height:38px;fill:none;stroke:#C9BDA6;stroke-width:3;stroke-linecap:round}
-@media(max-width:620px){.dash{display:none}}
+@media(max-width:620px){
+  .dash{display:none}
+  .stores__row{grid-template-columns:var(--store-w);justify-content:center}
+}
+@media(max-width:380px){.stores{--store-w:196px}}
 
 /* karakterli görsel */
 .hero__art{margin:clamp(32px,5vw,56px) 0 0;font-size:0;line-height:0}
