@@ -6,10 +6,12 @@
 <title>bilgin — Sınav hazırlığını oyuna çevir</title>
 <meta name="description" content="YKS, LGS, KPSS ve YDS/YÖKDİL için günde 5 dakikada soru çöz, seri yap, dinleyerek tekrar et. bilgin'i ücretsiz indir.">
 <meta name="theme-color" content="#0B6E4E">
-<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta property="og:title" content="bilgin — Sınav hazırlığını oyuna çevir">
 <meta property="og:description" content="YKS, LGS, KPSS ve YDS/YÖKDİL için günde 5 dakikalık mini dersler, soru kartları ve podcast tekrarları.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="assets/karakterler-1400.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
@@ -17,26 +19,12 @@
 </head>
 <body>
 
-<a class="skip" href="#hero">İçeriğe geç</a>
-
-<header class="nav">
-  <a class="nav__brand" href="#hero">
-    <img src="assets/logo.svg" alt="" width="36" height="36">
-    <span>bilgin</span>
-  </a>
-  <nav class="nav__links" aria-label="Site menüsü">
-    <a href="#nasil">Nasıl çalışır</a>
-    <a href="#sinavlar">Sınavlar</a>
-    <a href="#seri">Seri &amp; XP</a>
-    <a href="#sss">SSS</a>
-  </nav>
-  <a class="btn btn--sm" href="#indir">Ücretsiz indir</a>
-</header>
 
 <!-- ————————————————— HERO ————————————————— -->
 <main id="hero">
 <section class="hero wrap">
-  <img class="hero__icon" src="assets/logo.svg" alt="bilgin uygulama simgesi" width="96" height="96">
+  <img class="hero__icon" src="assets/logo-192.png" srcset="assets/logo-192.png 1x, assets/logo-384.png 2x"
+       alt="bilgin uygulama simgesi" width="96" height="96" fetchpriority="high">
   <p class="hero__name">bilgin</p>
 
   <h1 class="hero__title">Sınav hazırlığını<br>günlük bir alışkanlığa çevir.</h1>
@@ -206,6 +194,16 @@
   <div><b>0 ₺</b><span>başlangıç paketi</span></div>
 </section>
 
+<!-- ————————————————— MARKA ————————————————— -->
+<section class="wrap brand">
+  <img src="assets/karakterler-1400.png"
+       srcset="assets/karakterler-800.png 800w, assets/karakterler-1400.png 1400w"
+       sizes="(max-width: 760px) 92vw, 760px"
+       alt="bilgin logosu ve etrafında ders çalışan öğrenciler ile bilgin maskotu"
+       width="1400" height="933" loading="lazy">
+  <p>Türkiye'nin dört bir yanından öğrenciler her gün bilgin ile çalışıyor.</p>
+</section>
+
 <!-- ————————————————— SSS ————————————————— -->
 <section class="wrap faq" id="sss">
   <h2 class="h2 h2--center">Sık sorulanlar</h2>
@@ -231,7 +229,7 @@
 <!-- ————————————————— CTA ————————————————— -->
 <section class="cta">
   <div class="wrap">
-    <img src="assets/logo.svg" alt="" width="72" height="72">
+    <img src="assets/logo-192.png" srcset="assets/logo-192.png 1x, assets/logo-384.png 2x" alt="" width="72" height="72" loading="lazy">
     <h2>Bugün 5 dakikan var mı?</h2>
     <p>İlk serini bu akşam başlat. Kurulum 30 saniye.</p>
     <div class="stores stores--tight">
@@ -249,7 +247,7 @@
 
 <footer class="footer wrap">
   <div class="footer__brand">
-    <img src="assets/logo.svg" alt="" width="32" height="32"><span>bilgin</span>
+    <img src="assets/logo-192.png" alt="" width="32" height="32" loading="lazy"><span>bilgin</span>
   </div>
   <nav aria-label="Alt menü">
     <a href="#nasil">Nasıl çalışır</a>
